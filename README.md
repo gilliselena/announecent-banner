@@ -1,2 +1,30 @@
 # announecent-banner
-Using local storage the announcement banner on the page can be hidden on click and it will remain hidden through the whole site experience, until user decides to refresh the page. 
+//Notification banner display per session (cookie)  
+  
+//select your banner element 
+const banner = document.querySelector('.bar-wrapper');
+
+//select your x closed buttin element
+const closeLink = document.querySelector('.announcement-bar')
+
+function closeBanner() {
+	sessionStorage.setItem('bannerClosed', 'true');
+    $(banner).hide();
+}
+
+if (sessionStorage.getItem('bannerClosed') != 'true') {
+	$(banner).css('display','flex')
+	$(closeLink).click(function(){
+	closeBanner();
+	})
+}
+  
+window.onbeforeunload = function(){
+    sessionStorage.setItem("origin", window.location.href);
+}
+window.onload = function(){
+    if(window.location.href == sessionStorage.getItem("origin")){
+        sessionStorage.clear();
+    }
+}
+
